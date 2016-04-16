@@ -2,7 +2,7 @@
 .table1 th
 {
 	border: 1px dotted gray;
-	padding: 10px;
+	padding: 5px;
 	margin:10px;
 	background:pink;
 }
@@ -12,6 +12,12 @@
 	padding: 10px;
 	margin:10px;
 	background:#FFFAFA;
+	text-align:center;
+}
+.table1 td img
+{
+	width:27%;
+	text-align:center;
 }
 
 body
@@ -71,8 +77,13 @@ body
 
 #col1
 {
-/* 	float: left; */
-/* 	margin-right: 57px; */
+	float: left; 
+	margin-right: 48px; 
+}
+#colEquip
+{
+	float: left; 
+	margin: 0 48px; 
 }
 #col1 .col1_label
 {
@@ -91,4 +102,9 @@ body
 	margin-left: 94px;
     width: 82px;
     margin-top: 5px;
+}
+.col1_input_equip
+{
+	margin-left: 77px;
+    margin-top: 26px;
 }

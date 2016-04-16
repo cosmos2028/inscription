@@ -44,9 +44,19 @@
             
                 <label for="rue" class="col1_label"> Mail</label>
                     <input type="text" name="mail" value="${modele.pers.mail }"/> <br/>
+               <p>
+      				<label for="Equipe">Equipe</label>
+      				<select name="equipSelect" id="Equipe" style=" width:178px;height:24px;">
+         				<c:forEach items="${modelEquip.equipe}" var="p">
+         					<option selected disabled hidden style='display: none' value=''></option>
+							<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
+				
+						</c:forEach>  
+      				</select>
+   			</p>
            
            
-                <input type="submit" value="ajouter" name="action" class="col1_input" >
+                <input type="submit" value="Enregistrer" name="action" class="col1_input" >
                 <input type="hidden" value ="${modele.mode }" name="mode"/>
     </form>
 	<div> ${modele.msgError}</div>
@@ -67,15 +77,17 @@
 	
 		<table class="table1" cellspacing="0" cellpadding="0">
 			<tr>
-				<th>Nom</th> <th>Prenom</th><th>Mail</th>
+				<th>Nom</th> <th>Prenom</th> <th>Mail</th> <th>Equipe</th> <th>Modifier</th> <th>Supprimer</th>
 			</tr>
 			<c:forEach items="${modele.personnes}" var="p">
 			<tr>
 				<td>${p.nom}</td>
 				<td>${p.prenom}</td>
 				<td>${p.mail}</td>
-				<td><a href="javascript:confirmer('personne.david?action=delete&nom=${p.nom}')">Supprimer</a></td>
-				<td><a href="personne.david?action=modifier&nom=${p.nom}">Modifier</a></td>
+				<td>${p.mail}</td>
+				<td><a href="personne.david?action=modifier&nom=${p.nom}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
+				<td><a href="javascript:confirmer('personne.david?action=delete&nom=${p.nom}')"> <img src="img/supp.jpg" alt="supprimer_Image" /> </a></td>
+				
 				
 			</tr>
 			

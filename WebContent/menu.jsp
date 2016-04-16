@@ -6,8 +6,8 @@
     		<li><a href="accueil.david">Accueil</a></li>
     		<li><a href="personne.david">Personne</a></li>
     		<li><a href="equipe.david">Equipe</a></li>
-    		<li><a href="#">Compétition</a></li>
-    		<li><a href="#">Inscription</a></li>
+    		<li><a href="competition.david">Compétition</a></li>
+    		<li><a href="inscription.david">Inscription</a></li>
     		<li><a href="#">Déconnexion</a></li>
     	</ul>
    

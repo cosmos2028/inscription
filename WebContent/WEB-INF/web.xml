@@ -25,4 +25,22 @@
     <servlet-name>Equipe</servlet-name>
     <url-pattern>/equipe.david</url-pattern>
   </servlet-mapping>
+
+ <servlet>
+    <servlet-name>Competition</servlet-name>
+    <servlet-class>web.CompetitionControleurServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Competition</servlet-name>
+    <url-pattern>/competition.david</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Inscription</servlet-name>
+    <servlet-class>web.InscriptionControleurServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Inscription</servlet-name>
+    <url-pattern>/inscription.david</url-pattern>
+  </servlet-mapping>
 </web-app>

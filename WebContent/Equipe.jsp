@@ -25,26 +25,26 @@
 <body>
 <%@ include file="menu.jsp" %>
 
-	<table style="width: inherit;">
-		<tr>
-			<td>
-				<div id="col1">
+	<div id="colEquip">
 				
-				<h3>Ajouter une equipe</h3>
+		<h3 style="margin-top: 0;">Ajouter une équipe</h3>
 				
-				<form action="equipe.david" method="post">
+		<form action="equipe.david" method="post">
             
-                	<label  class="col1_label"> Nom</label>
+        	<label  class="col1_label"> Nom</label>
                    
-          			<input type="text" name="nom" value="${modele.inputNom}"/> <br/>
+        	<input type="text" name="nom" value="${modele.inputNom}"/> <br/>
           			
-               		<input type="submit" value="ajouterEquip" name="action" class="col1_input" >
-    			</form>
+            <input type="submit" value="Enregistrer" name="action" class="col1_input_equip" >
+    	</form>
     			
-				<div> ${modele.msgError}</div>
+		<div> ${modele.msgError}</div>
 	
-				</div>
-			</td>
+	</div>
+				
+	<table>
+		<tr>
+			
 			<td>
 				<div>
 					<h3>Rechercher une équipe</h3>
@@ -60,13 +60,15 @@
 	
 					<table class="table1" cellspacing="0" cellpadding="0">
 						<tr>
-							<th>Nom</th> 
+							<th>Nom</th> <th>Membre</th> <th>Modifier</th> <th>Supprimer</th> 
 						</tr>
 						
 						<c:forEach items="${modele.equipe}" var="p">
 							<tr>
 								<td>${p.nom}</td>
-								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.nom}')">Supprimer</a></td>
+								<td>${p.nom}</td>
+								<td><a href="personne.david?action=modifier&nom=${p.nom}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
+								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.nom}')"><img src="img/supp.jpg" alt="supprimer_Image" /></a></td>
 
 							</tr>
 			
@@ -77,68 +79,68 @@
 		 </tr>
 		 <tr>
 			<td>
-				<div id="col2">
-					<h3>Ajouter une personne dans une  equipe</h3>
-						<form action="equipe.david" method="post">
+<!-- 				<div id="col2"> -->
+<!-- 					<h3>Ajouter une personne dans une  equipe</h3> -->
+<!-- 						<form action="equipe.david" method="post"> -->
             
-   							<p>
-      						<label for="personne">personne</label>
-      						<select name="perselect" id="personne">
-         					<c:forEach items="${modele.personne}" var="p">
-							<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
+<!--    							<p> -->
+<!--       						<label for="personne">personne</label> -->
+<!--       						<select name="perselect" id="personne"> -->
+<%--          					<c:forEach items="${modele.personne}" var="p"> --%>
+<%-- 							<option value="<c:out value='${p.nom}'/>">${p.nom}</option> --%>
 				
-							</c:forEach>  
-      						</select>
-   							</p>
+<%-- 							</c:forEach>   --%>
+<!--       						</select> -->
+<!--    							</p> -->
    		
-   							<p>
-      						<label for="Equipe">Equipe</label>
-      						<select name="equipSelect" id="Equipe">
-         					<c:forEach items="${modele.equipe}" var="p">
-							<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
+<!--    							<p> -->
+<!--       						<label for="Equipe">Equipe</label> -->
+<!--       						<select name="equipSelect" id="Equipe"> -->
+<%--          					<c:forEach items="${modele.equipe}" var="p"> --%>
+<%-- 							<option value="<c:out value='${p.nom}'/>">${p.nom}</option> --%>
 				
-							</c:forEach>  
-      						</select>
-   							</p>
-   							<input type="submit" value="ajouter_pers" name="action" class="col1_input" >
+<%-- 							</c:forEach>   --%>
+<!--       						</select> -->
+<!--    							</p> -->
+<!--    							<input type="submit" value="ajouter_pers" name="action" class="col1_input" > -->
    	
-						</form>
+<!-- 						</form> -->
           
-					<div> ${modele.msgError}</div>
+<%-- 					<div> ${modele.msgError}</div> --%>
 	
-				</div>
-			</td>
+<!-- 				</div> -->
+<!-- 			</td> -->
 			
-			<td>
-				<div>
-					<h3>Rechercher les personnes d'une équipe</h3>
-					<form action="equipe.david" method="post">
-						<table>
-							<tr>
-								<td>Mot clé</td>
-								<td><input type="text" name="motclePers" value="${modele.motCle }"></td>
-								<td><input type="submit" value="chercherPers" name="action" ></td>
-							</tr>
-						</table>
-					</form>
-	
-					<table class="table1" cellspacing="0" cellpadding="0">
-						<tr>
-							<th>Personne</th> <th>Equipe</th> 
-						</tr>
-<%-- 						<c:forEach items="${modele.AllPersInEquipe}" var="p"> --%>
+<!-- 			<td> -->
+<!-- 				<div> -->
+<!-- 					<h3>Rechercher les personnes d'une équipe</h3> -->
+<!-- 					<form action="equipe.david" method="post"> -->
+<!-- 						<table> -->
 <!-- 							<tr> -->
-			
-<%-- 								<td>${p.key}</td> --%>
-<%-- 								<td>${p.value}</td> --%>
-<%-- 								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.key}')">Supprimer</a></td> --%>
-
+<!-- 								<td>Mot clé</td> -->
+<%-- 								<td><input type="text" name="motclePers" value="${modele.motCle }"></td> --%>
+<!-- 								<td><input type="submit" value="chercherPers" name="action" ></td> -->
 <!-- 							</tr> -->
+<!-- 						</table> -->
+<!-- 					</form> -->
+	
+<!-- 					<table class="table1" cellspacing="0" cellpadding="0"> -->
+<!-- 						<tr> -->
+<!-- 							<th>Personne</th> <th>Equipe</th>  -->
+<!-- 						</tr> -->
+<%-- <%-- 						<c:forEach items="${modele.AllPersInEquipe}" var="p"> --%> --%>
+<!-- <!-- 							<tr> --> -->
 			
-<%-- 						</c:forEach> --%>
-					</table>
-				</div>
-			</td>
+<%-- <%-- 								<td>${p.key}</td> --%> --%>
+<%-- <%-- 								<td>${p.value}</td> --%> --%>
+<%-- <%-- 								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.key}')">Supprimer</a></td> --%> --%>
+
+<!-- <!-- 							</tr> --> -->
+			
+<%-- <%-- 						</c:forEach> --%> --%>
+<!-- 					</table> -->
+<!-- 				</div> -->
+<!-- 			</td> -->
 		 </tr>
 	</table>
 	
