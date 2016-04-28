@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
@@ -447,12 +448,104 @@ Connection conn = SingletonConnection.getConnection();
 			ps.close();
 			System.out.println("persInEquipe récupérée !!");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
 		return persinequip;
 	}
+
+	@Override
+	public SortedSet<Competition> GetCompetition() {
+		
+		SortedSet<Competition> CompetpAll = new TreeSet<>();
+		Connection conn = SingletonConnection.getConnection();
+		Competition compet;
+		LocalDate date ;
+		try {
+			PreparedStatement ps = conn.prepareStatement
+					(" call GetCompetition()");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				date = LocalDate.parse((rs.getString("dateclose")));
+				
+				compet = new Competition(null, rs.getString("nom_compet"), date, rs.getBoolean("enEquipe"));
+			
+				CompetpAll.add(compet);
+				
+			}
+			
+			ps.close();
+			
+			System.out.println("compétition ajoutée !!");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return CompetpAll;
+	}
+	public SortedSet<Competition> SerchCompetitionParMC(String mc){
+		
+		SortedSet<Competition> CompetpAll = new TreeSet<>();
+		Connection conn = SingletonConnection.getConnection();
+		Competition compet;
+		LocalDate date ;
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement
+					("select nom_compet,dateclose,enEquipe  from COMPETITION where  nom_compet like ?");
+			ps.setString(1,"%"+mc+"%");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				date = LocalDate.parse((rs.getString("dateclose")));
+				
+				compet = new Competition(null, rs.getString("nom_compet"), date, rs.getBoolean("enEquipe"));
+			
+				CompetpAll.add(compet);
+				
+			}
+			
+			ps.close();
+			
+			System.out.println("compétition récupérée !!");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		return CompetpAll;
+	}
+	public Competition GetOneCompetition(String nom ){
+		
+		Connection conn = SingletonConnection.getConnection();
+		Competition compet = null;
+		LocalDate date ;
+		try {
+			PreparedStatement ps = conn.prepareStatement
+					(" select nom_compet,dateclose,enEquipe  from COMPETITION where nom_compet = ? ");
+			ps.setString(1,nom ); 
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				date = LocalDate.parse((rs.getString("dateclose")));
+				
+				compet = new Competition(null, rs.getString("nom_compet"), date, rs.getBoolean("enEquipe"));
+			}
+			
+			ps.close();
+			
+			System.out.println("compétition recupérée !!");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return compet;
+	}
+	
 	
 
 }

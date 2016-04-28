@@ -27,7 +27,6 @@
                 <label for="rue" class="col1_label"> Nom</label>
                     <input type="text" name="nom" value="${modele.pers.nom }"/> <br/>
           
-
         </c:if>
         <c:if test="${modele.mode=='modifier' }">
         

@@ -24,7 +24,7 @@ public class Competition implements Comparable<Competition>
 	
 	Date input = new Date();
 	LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-	int ouvert = date.compareTo(getDateCloture());
+//	int ouvert = date.compareTo(getDateCloture());
 
 	Competition(Inscriptions inscriptions, String nom, LocalDate dateCloture, boolean enEquipe)
 	{
@@ -35,6 +35,7 @@ public class Competition implements Comparable<Competition>
 		candidats = new TreeSet<>();
 	}
 	
+
 	/**
 	 * Retourne le nom de la compétition.
 	 * @return
@@ -43,6 +44,10 @@ public class Competition implements Comparable<Competition>
 	public String getNom()
 	{
 		return nom;
+	}
+	public void setNom(String nom)
+	{
+		this.nom = nom;
 	}
 	
 	/**
@@ -54,9 +59,9 @@ public class Competition implements Comparable<Competition>
 	{
 		// TODO retourner vrai si la date système est ultérieure à la date de clôture.
 		
-		if (ouvert >0 )
-		return true;
-		else
+//		if (ouvert >0 )
+//		return true;
+//		else
 			return false;
 	}
 	
@@ -80,6 +85,10 @@ public class Competition implements Comparable<Competition>
 		return enEquipe;
 	}
 	
+	public boolean isEnEquipe() {
+		return enEquipe;
+	}
+	
 	/**
 	 * Modifie la date de cloture des inscriptions. Il est possible de la reculer 
 	 * mais pas de l'avancer.
@@ -90,15 +99,15 @@ public class Competition implements Comparable<Competition>
 	{
 		// TODO vérifier que l'on avance pas la date.
 		
-		if (ouvert < 0 )
-		{
-			this.dateCloture = dateCloture;
-			System.out.println("date modifié" );
-		}
-			
-		else
-			System.out.println("impossible d'avancer la date" );
-	
+//		if (ouvert < 0 )
+//		{
+//			this.dateCloture = dateCloture;
+//			System.out.println("date modifié" );
+//		}
+//			
+//		else
+//			System.out.println("impossible d'avancer la date" );
+//	
 		
 	}
 	
@@ -122,8 +131,8 @@ public class Competition implements Comparable<Competition>
 	public boolean add(Personne personne)
 	{
 		// TODO vérifier que la date de clôture n'est pas passée 
-		if (enEquipe || ouvert > 0)
-			throw new RuntimeException();
+//		if (enEquipe || ouvert > 0)
+//			throw new RuntimeException();
 		personne.add(this);
 		return candidats.add(personne);
 	}

@@ -24,8 +24,11 @@ public interface IMetier {
 	public Map<String, String>SerchPersonneInEquipeParMC(String mc);
 	public Map<String, String> GetAllPersonneInEquipe();
 	public void DeletePersonneInEquipe(String equip ,String pers);
+	public SortedSet<Competition> GetCompetition();
+	public SortedSet<Competition> SerchCompetitionParMC(String mc);
+	public Competition GetOneCompetition(String nom);
 	
-	
+
 	
 	
 	

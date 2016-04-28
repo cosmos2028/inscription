@@ -222,7 +222,12 @@ public class Inscriptions
 		Inscriptions inscriptions = Inscriptions.getInscriptions();
 		Connection con = SingletonConnection.getConnection();
 		MetierImpl metier = new MetierImpl();
-		System.out.println(metier.GetAllPersonneInEquipe());
+		for(Competition pers : metier.GetCompetition())
+			{
+				System.out.println(pers.estEnEquipe()+ "\t"+"\n");
+				
+	
+			}
 //		metier.DeletePersonneInEquipe("foot","jean");
 //		metier.DeletePersonne("lucie");
 //		System.out.println(metier.SerchEquipeParMC(""));

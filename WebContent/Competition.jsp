@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html">
 <html>
 <head>
@@ -19,17 +20,43 @@
 </head>
 <body>
 	<%@ include file="menu.jsp" %>
+	
 	<div id="col1">
 	<form action="competition.david" method="post">
-            
+            	<c:set var="today" value="<%=new java.util.Date()%>" />
                 <label for="nom" class="col1_label"> Nom</label>
-                <input type="text" name="nom" value=""/> <br/>
+                <input type="text" name="nom" value="${modele.compet.nom }"/> <br/>
+                
+                <c:set var="max" value="${modele.compet.dateCloture}"/>
+                <c:choose>
+    				<c:when test="${not empty max}">
+        				<c:set var="max" value="${modele.compet.dateCloture}"/>
+    				</c:when>
+    				
+    				<c:otherwise>  
+        				
+        				<fmt:formatDate pattern="yyyy-MM-dd" value="${today}" var="min"/>
+    				</c:otherwise>
+				</c:choose>
+				
                 <label for="date" class="col1_label"> Date</label>
-                <input type="date" name="date" value="" style ="width: 175px;"/> <br/>
-                <label for="simple">Simple</label><input type="radio" name="simple" value="simple" id="simple" /> 
-                <label for="equipe">Par equipe</label><input type="radio" name="simple" value="equipe" id="equipe" /><br /><br />
-          
-                <input type="submit" value="Ajouter" name="action" class="col1_input" >
+                <input type="date" name="date" min="<c:out value="${min}" />" max="<c:out value="${max}" />" value="${modele.compet.dateCloture}" style ="width: 175px;"/> <br/>
+                <c:choose>
+				
+   					 <c:when test="${modele.compet.enEquipe =='true'}">
+   					 	<c:set var="checked" value="checked"/>
+    				</c:when> 
+    				   
+   					<c:otherwise>
+        				<c:set var="checked2" value="checked"/>
+    				</c:otherwise>
+    				
+				</c:choose>
+				
+				<label for="simple">Simple</label><input type="radio" name="simple" value="simple" id="simple" <c:out value="${checked2}" />/> 
+    		    <label for="equipe">Par equipe</label><input type="radio" name="simple" value="equipe" id="equipe" <c:out value="${checked}" />/><br /><br />
+    		    
+                <input type="submit" value="enregistrer" name="action" class="col1_input" >
               
     </form>
 	<div> ${modele.msgError}</div>
@@ -52,12 +79,24 @@
 			<tr>
 				<th>Nom</th> <th>Date</th> <th>Type</th> <th>Modifier</th> 
 			</tr>
-			<c:forEach items="${modele.personnes}" var="p">
+			<c:forEach items="${modele.competition}" var="p">
 			<tr>
 				<td>${p.nom}</td>
-				<td>${p.prenom}</td>
-				<td>${p.mail}</td>
-				<td><a href="javascript:confirmer('personne.david?action=delete&nom=${p.nom}')"> <img src="img/edit.jpg" alt="edit_Image" /> </a></td>
+				<td>${p.dateCloture}</td>
+				
+				<c:choose>
+				
+   					 <c:when test="${p.enEquipe=='true'}">
+   					 	<td>equipe</td>
+    				</c:when> 
+    				   
+   					<c:otherwise>
+        				<td>simple</td> 
+    				</c:otherwise>
+    				
+				</c:choose>
+				
+				<td><a href="javascript:confirmer('competition.david?action=modifier&nom=${p.nom}')"> <img src="img/edit.jpg" alt="edit_Image" /> </a></td>
 			</tr>
 			
 			</c:forEach>
