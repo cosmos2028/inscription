@@ -53,10 +53,21 @@
     				
 				</c:choose>
 				
-				<label for="simple">Simple</label><input type="radio" name="simple" value="simple" id="simple" <c:out value="${checked2}" />/> 
-    		    <label for="equipe">Par equipe</label><input type="radio" name="simple" value="equipe" id="equipe" <c:out value="${checked}" />/><br /><br />
-    		    
-                <input type="submit" value="enregistrer" name="action" class="col1_input" >
+				<c:if test="${modele.mode=='Enregistrer' }">
+            
+                	<label for="simple">Simple</label><input type="radio" name="simple" value="simple" id="simple" <c:out value="${checked2}" />/> 
+    		    	<label for="equipe">Par equipe</label><input type="radio" name="simple" value="equipe" id="equipe" <c:out value="${checked}" />/><br /><br />
+          
+        		</c:if>
+       			<c:if test="${modele.mode=='modifier' }">
+        
+               		<input type="hidden" name="simple" value="simple" id="simple" <c:out value="${checked2}" />/> 
+    		    	<input type="hidden" name="simple" value="equipe" id="equipe" <c:out value="${checked}" />/><br /><br />
+                
+        		</c:if>
+        
+                <input type="submit" value="Enregistrer" name="action" class="col1_input" >
+                <input type="hidden" value ="${modele.mode }" name="mode"/>
               
     </form>
 	<div> ${modele.msgError}</div>
@@ -69,7 +80,7 @@
 		<table>
 			<tr>
 				<td>Mot clé</td>
-				<td><input type="text" name="motcle" value="${modele.motCle }"></td>
+				<td><input type="text" name="motcle" value="${modele.motCle }" placeholder="nom compétition"></td>
 				<td><input type="submit" value="chercher" name="action" ></td>
 			</tr>
 		</table>

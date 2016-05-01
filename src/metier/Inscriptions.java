@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -222,12 +224,23 @@ public class Inscriptions
 		Inscriptions inscriptions = Inscriptions.getInscriptions();
 		Connection con = SingletonConnection.getConnection();
 		MetierImpl metier = new MetierImpl();
-		for(Competition pers : metier.GetCompetition())
-			{
-				System.out.println(pers.estEnEquipe()+ "\t"+"\n");
-				
-	
-			}
+		
+		Map<String, String> myMap = null;
+		myMap = metier.SerchPersonneInEquipeParMC("c");
+		for (Entry<String, String> currentEntry : myMap.entrySet()) {
+			String id = currentEntry.getKey();
+			String value = currentEntry.getValue();
+			System.out.println( id +"\t"+ value +"\n");
+		   
+		}
+		
+		
+//		for (Map<String, String> e : metier.GetAllPersonneInEquipe())
+//			{
+//				System.out.println(pers.estEnEquipe()+ "\t"+"\n");
+//				
+//	
+//			}
 //		metier.DeletePersonneInEquipe("foot","jean");
 //		metier.DeletePersonne("lucie");
 //		System.out.println(metier.SerchEquipeParMC(""));
@@ -245,7 +258,7 @@ public class Inscriptions
 //		metier.addEquipe(inscriptions.createEquipe("foot"));
 //  	metier.addEquipe(inscriptions.createEquipe("foot"));
 //		LocalDate today = LocalDate.now();
-//		
+//		metier.UpdateCompetition(inscriptions.createCompetition("Mondial de fléchettes",today, false),"foot");
 //		metier.addCompetition(inscriptions.createCompetition("Mondial de fléchettes",today, false));
 		
 //		metier.addInscrit("foot", "Mondial de fléchettes");

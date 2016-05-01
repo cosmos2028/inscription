@@ -36,6 +36,7 @@
         	<input type="text" name="nom" value="${modele.inputNom}"/> <br/>
           			
             <input type="submit" value="Enregistrer" name="action" class="col1_input_equip" >
+            <input type="hidden" value ="${modele.mode}" name="mode"/>
     	</form>
     			
 		<div> ${modele.msgError}</div>
@@ -52,7 +53,7 @@
 						<table>
 							<tr>
 								<td>Mot clé</td>
-								<td><input type="text" name="motcle" value="${modele.motCle }"></td>
+								<td><input type="text" name="motcle" value="${modele.motCle }" placeholder="nom equipe"></td>
 								<td><input type="submit" value="chercher" name="action" ></td>
 							</tr>
 						</table>
@@ -63,12 +64,12 @@
 							<th>Nom</th> <th>Membre</th> <th>Modifier</th> <th>Supprimer</th> 
 						</tr>
 						
-						<c:forEach items="${modele.equipe}" var="p">
+						<c:forEach items="${modelInEquip}" var="p">
 							<tr>
-								<td>${p.nom}</td>
-								<td>${p.nom}</td>
-								<td><a href="personne.david?action=modifier&nom=${p.nom}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
-								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.nom}')"><img src="img/supp.jpg" alt="supprimer_Image" /></a></td>
+								<td>${p.key}</td>
+								<td>${p.value}</td>
+								<td><a href="equipe.david?action=modifier&nom=${p.key}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
+								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.key}')"><img src="img/supp.jpg" alt="supprimer_Image" /></a></td>
 
 							</tr>
 			
@@ -129,7 +130,7 @@
 <!-- 							<th>Personne</th> <th>Equipe</th>  -->
 <!-- 						</tr> -->
 <%-- <%-- 						<c:forEach items="${modele.AllPersInEquipe}" var="p"> --%> --%>
-<!-- <!-- 							<tr> --> -->
+<!-- <!-- 							<tr> --> 
 			
 <%-- <%-- 								<td>${p.key}</td> --%> --%>
 <%-- <%-- 								<td>${p.value}</td> --%> --%>

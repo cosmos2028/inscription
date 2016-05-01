@@ -42,32 +42,50 @@ IMetier metier;
 		if (action !=null) 
 		{
 			Inscriptions inscriptions = Inscriptions.getInscriptions();
-			if (action.equals("enregistrer")) 
+			
+			if (action.equals("Enregistrer")) 
 			{
 				String estEquipe;
 				Competition compet;
 				LocalDate date = LocalDate.parse(request.getParameter("date"));
 				estEquipe = request.getParameter("simple");
+				modelComp.setMode(request.getParameter("mode"));
+				boolean varEstEquip;
 				
 				if(estEquipe.equals("equipe"))
-					 compet = inscriptions.createCompetition(request.getParameter("nom"), date, true);
+					varEstEquip = true ;
 				
 				else
-					 compet = inscriptions.createCompetition(request.getParameter("nom"), date, false);
+					varEstEquip =  false;
 				
-				modelComp.setCompet(compet);
-				metier.addCompetition(modelComp.getCompet());
+				if (modelComp.getMode().equals("Enregistrer")) 
+				 {
+					
+					compet = inscriptions.createCompetition(request.getParameter("nom"), date, varEstEquip);
+					modelComp.setCompet(compet);
+					metier.addCompetition(modelComp.getCompet());
+					modelComp.setCompetition(metier.GetCompetition());
+					 
+				 }else if(modelComp.getMode().equals("modifier"))
+				 {
+					 compet = inscriptions.createCompetition(request.getParameter("nom"), date, varEstEquip);
+					 modelComp.setCompet(compet);
+					 metier.UpdateCompetition(modelComp.getCompet(),modelComp.getNomCompt());
+					 modelComp.setCompetition(metier.GetCompetition());					
+				 }
+		    }
+			else if(action.equals("modifier"))
+			{
+				
+				modelComp.setNomCompt(request.getParameter("nom"));
+				modelComp.setCompet(metier.GetOneCompetition(modelComp.getNomCompt()));
+				modelComp.setMode("modifier");				
 			}
 			else if(action.equals("chercher"))
 			{
 				modelComp.setMotCle(request.getParameter("motcle"));
 				modelComp.setCompetition(metier.SerchCompetitionParMC(modelComp.getMotCle()));
 				
-			}
-			else if(action.equals("modifier"))
-			{
-				
-				modelComp.setCompet(metier.GetOneCompetition(request.getParameter("nom")));
 			}
 		}
 		

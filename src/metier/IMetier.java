@@ -27,6 +27,8 @@ public interface IMetier {
 	public SortedSet<Competition> GetCompetition();
 	public SortedSet<Competition> SerchCompetitionParMC(String mc);
 	public Competition GetOneCompetition(String nom);
+	public void UpdateCompetition(Competition compet,String nomcompet);
+	public void UpdateEquipe(Equipe equip,String beforeName);
 	
 
 	

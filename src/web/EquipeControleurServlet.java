@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import metier.Equipe;
 import metier.IMetier;
+import metier.Inscriptions;
 import metier.MetierImpl;
 import metier.Personne;
 
@@ -32,52 +33,60 @@ IMetier metier;
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		EquipeModel model = new EquipeModel();
-		Map<String, String> allPersInEquip;
-		request.setAttribute("modele", model);
+		EquipeModel modelEquipe = new EquipeModel();
 		String action = request.getParameter("action");
-		model.setPersonne(metier.GetAllPersonne());
-		model.setEquipe(metier.GetAllEquipe());
-		model.setAllPersInEquipe(metier.GetAllPersonneInEquipe());
-//		allPersInEquip = metier.GetAllPersonneInEquipe();
-//		request.setAttribute("AllPersInEquipe", allPersInEquip);
+		modelEquipe.setAllPersInEquipe(metier.GetAllPersonneInEquipe());
+		request.setAttribute("modele", modelEquipe);
+		
 		if (action !=null) 
 		{
-			if (action.equals("chercherPers")) 
-			{
-				
-				model.setMotCle(request.getParameter("motclePers"));
-				allPersInEquip = metier.SerchPersonneInEquipeParMC(model.getMotCle());
-//				model.setEquipe(equipe);
-			}
-			else if(action.equals("ajouterEquip"))
-			{
-				
-				String equip = request.getParameter("nom");
-				model.getEquip().setNom(equip);
-				metier.addEquipe(model.getEquip());
-				model.setInputNom(model.getEquip().getNom());
-				model.setEquipe(metier.GetAllEquipe());
-			}
 			
-			else if(action.equals("ajouter_pers"))
+			Inscriptions inscriptions = Inscriptions.getInscriptions();
+			Equipe equip ;
+			
+			
+			 if(action.equals("Enregistrer"))
 			{
+				 equip = inscriptions.createEquipe(request.getParameter("nom"));
+				 modelEquipe.setEquip(equip);
+				 System.out.println(modelEquipe.getMode());
 					
-				String perselect = request.getParameter("perselect");
-				String equipSelect = request.getParameter("equipSelect");
-				metier.addPersonneInEquipe(equipSelect, perselect);
-				model.setAllPersInEquipe(metier.GetAllPersonneInEquipe());
-				
-			}else if (action.equals("ajouter_pers")) 
-			{
-				String equip = request.getParameter("eqip");
-				String pers = request.getParameter("pers");
-				metier.addPersonneInEquipe(equip, pers);
-				
-				model.setAllPersInEquipe(metier.GetAllPersonneInEquipe());
-	
+				if (modelEquipe.getMode().equals("Enregistrer")) 
+				 {
+					metier.addEquipe(modelEquipe.getEquip());
+					modelEquipe.setInputNom(modelEquipe.getEquip().getNom());
+					 
+				 }else if(modelEquipe.getMode().equals("modifier"))
+				 
+					 metier.UpdateEquipe(modelEquipe.getEquip(), EquipeModel.getBeforeName());
+					 
+				modelEquipe.setAllPersInEquipe(metier.GetAllPersonneInEquipe());
 			}
+			 else if(action.equals("modifier"))
+			 {
+				 EquipeModel.setBeforeName(request.getParameter("nom")); 
+				 modelEquipe.setInputNom(request.getParameter("nom"));
+				 modelEquipe.setMode("modifier");
+				 System.out.println(modelEquipe.getMode());
+				 
+				 
+			 }
+			 else if(action.equals("delete"))
+			 {
+				 metier.DeleteEquipe(request.getParameter("nom"));
+				 modelEquipe.setAllPersInEquipe(metier.GetAllPersonneInEquipe());
+			 }
+			 
+			 else if(action.equals("chercher"))
+			 {
+				 modelEquipe.setMotCle(request.getParameter("motcle"));
+				 modelEquipe.setAllPersInEquipe(metier.SerchPersonneInEquipeParMC(modelEquipe.getMotCle()));
+				 
+			 }
+			 
 		}
+		
+		request.setAttribute("modelInEquip",  modelEquipe.getAllPersInEquipe());
 		
 		request.getRequestDispatcher("Equipe.jsp").forward(request, response);
 

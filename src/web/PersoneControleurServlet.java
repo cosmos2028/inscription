@@ -39,6 +39,7 @@ IMetier metier;
 
 		request.setAttribute("modele", model);
 		request.setAttribute("modelEquip", modelEquip);
+		
 		if (action !=null) 
 		{
 			
@@ -55,7 +56,7 @@ IMetier metier;
 				metier.DeletePersonne(pers);
 				model.setPersonnes(metier.GetAllPersonne());
 			}
-			else if(action.equals("ajouter"))
+			else if(action.equals("Enregistrer"))
 			{
 				try 
 				{
