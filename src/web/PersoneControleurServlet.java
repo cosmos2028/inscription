@@ -35,7 +35,7 @@ IMetier metier;
 		PersonneModel model = new PersonneModel();
 		EquipeModel modelEquip = new EquipeModel();
 		String action = request.getParameter("action");
-		modelEquip.setEquipe(metier.GetAllEquipe());
+//		modelEquip.setEquipe(metier.GetAllEquipe());
 
 		request.setAttribute("modele", model);
 		request.setAttribute("modelEquip", modelEquip);
