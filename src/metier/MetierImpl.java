@@ -164,19 +164,21 @@ public class MetierImpl implements IMetier {
 	}
 
 	@Override
-	public void addPersonneInEquipe(String equipe, String pers) 
+	public void addPersonneInEquipe(String equipe, Personne pers) 
 	{
 		Connection conn = SingletonConnection.getConnection();
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement
-					("call addPersonneInEquipe(?,?)");
+					("call addPersonneInEquipe(?,?,?,?)");
 			
 			ps.setString(1,equipe); 
-			ps.setString(2,pers ); 
+			ps.setString(2,pers.getNom()); 
+			ps.setString(3,pers.getPrenom()); 
+			ps.setString(4,pers.getMail()); 
 			ps.executeUpdate();
 			ps.close();
-			System.out.println("la  personne  ajout√© avec succ√®s!!");
+			System.out.println("personne  ajoutee dans equipe avec succees!!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -464,11 +466,11 @@ public class MetierImpl implements IMetier {
 			{
 				alCandidat.add(rs.getString("nomCandidat"));
 			}
-			
-			for(int i = 0; i < alCandidat.size()-1; i++)
+			int tmp = alCandidat.size()-1;
+			for(int i = 0; i < alCandidat.size()-1 && i< tmp; i++)
 		    {
-				persinequip.put(alCandidat.get(i),alCandidat.get(i+1));
-		      
+				persinequip.put(alCandidat.get(i),alCandidat.get(tmp));
+				tmp--;
 		    } 
 			
 			ResultSet rs2 = ps2.executeQuery();
@@ -608,7 +610,7 @@ public class MetierImpl implements IMetier {
 
 		try {
 			PreparedStatement ps = conn.prepareStatement
-					("update candidat set nomCandidat = ? where nom_compet = ? ");
+					("update candidat set nomCandidat = ? where nomCandidat = ? ");
 			ps.setString(1,equip.getNom());
 			ps.setString(2,beforeName);
 			
@@ -616,10 +618,53 @@ public class MetierImpl implements IMetier {
 			ps.close();
 			System.out.println("equipe modifiÈe !!!!");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public Map<String, String> GetAlliEquipInPersonne() {
+		
+		Map<String, String> persinequip = new HashMap<String, String>();
+		ArrayList<String> alCandidat = new ArrayList<String>();
+
+		Connection conn = SingletonConnection.getConnection();
+		
+		try {
+			
+			PreparedStatement ps = conn.prepareStatement("call GetAllPersonneInEquipe()");
+			PreparedStatement ps2 = conn.prepareStatement("select nomCandidat from CANDIDAT c,personne p where c.id_candid = p.id_candid and c.id_candid NOT IN (select id_candid from composer)and c.id_candid NOT IN (select id_candid_CANDIDAT from composer)");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				alCandidat.add(rs.getString("nomCandidat"));
+			}
+			
+			for(int i = 0; i < alCandidat.size()-1 ; i++)
+		    {
+				persinequip.put(alCandidat.get(i),alCandidat.get(i+1));
+				System.out.println(alCandidat.get(i) + "salut");
+				
+		    } 
+			
+			ResultSet rs2 = ps2.executeQuery();
+			while(rs2.next())
+			{
+				persinequip.put(rs2.getString("nomCandidat"),"Aucun");
+				
+			}
+			
+			ps.close();
+			System.out.println("persInEquipe rÈcupÈrÈe !!");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return persinequip;
 	}
 
 

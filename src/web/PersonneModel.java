@@ -1,21 +1,36 @@
 package web;
 
+import java.util.Map;
 import java.util.Set;
-
-import metier.Inscriptions;
+import java.util.SortedSet;
+import metier.Equipe;
 import metier.Personne;
 
 public class PersonneModel 
 {
-	private String mode = "ajouter";
+	private String mode = "Enregistrer";
 	private String msgError;
 	private Set<Personne> personnes;
 	private String motCle ;
-	private Inscriptions inscriptions = Inscriptions.getInscriptions();
-	private Personne pers = inscriptions.createPersonne("", "", "");
+	private Personne pers ;
+	private Set<Equipe>  AllEquip;
+	private  Map<String, String> AllPersInEquipe;
+	
+	
+	public Map<String, String> getAllPersInEquipe() {
+		return AllPersInEquipe;
+	}
+	public void setAllPersInEquipe(Map<String, String> allPersInEquipe) {
+		AllPersInEquipe = allPersInEquipe;
+	}
+	
+	public Set<Equipe> getAllEquip() {
+		return AllEquip;
+	}
+	public void setAllEquip(Set<Equipe> allEquip) {
+		AllEquip = allEquip;
+	}	
 
-	
-	
 	public String getMode() {
 		return mode;
 	}

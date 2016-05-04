@@ -49,6 +49,7 @@ IMetier metier;
 			{
 				 equip = inscriptions.createEquipe(request.getParameter("nom"));
 				 modelEquipe.setEquip(equip);
+				 modelEquipe.setMode(request.getParameter("mode"));
 				 System.out.println(modelEquipe.getMode());
 					
 				if (modelEquipe.getMode().equals("Enregistrer")) 
@@ -66,9 +67,7 @@ IMetier metier;
 			 {
 				 EquipeModel.setBeforeName(request.getParameter("nom")); 
 				 modelEquipe.setInputNom(request.getParameter("nom"));
-				 modelEquipe.setMode("modifier");
-				 System.out.println(modelEquipe.getMode());
-				 
+				 modelEquipe.setMode("modifier");				 
 				 
 			 }
 			 else if(action.equals("delete"))

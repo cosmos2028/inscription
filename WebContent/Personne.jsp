@@ -22,21 +22,9 @@
 	<div id="col1">
 	<form action="personne.david" method="post">
         
-        <c:if test="${modele.mode=='ajouter' }">
-            
+     
                 <label for="rue" class="col1_label"> Nom</label>
                     <input type="text" name="nom" value="${modele.pers.nom }"/> <br/>
-          
-        </c:if>
-        <c:if test="${modele.mode=='modifier' }">
-        
-               <label for="rue"> Nom </label>
-                    <span style="margin-left: 22px;">${modele.pers.nom}</span> <br/>
-                    <input type="hidden" name="nom" value="${modele.pers.nom }"/> <br/>
-                
-           
-            
-        </c:if>
             
                 <label for="rue"> Prenom</label>
                     <input type="text" name="prenom" value="${modele.pers.prenom }"/> <br/>
@@ -45,15 +33,13 @@
                     <input type="text" name="mail" value="${modele.pers.mail }"/> <br/>
                <p>
       				<label for="Equipe">Equipe</label>
-      				<select name="equipSelect" id="Equipe" style=" width:178px;height:24px;">
-         				<c:forEach items="${modelEquip.equipe}" var="p">
+      				<select name="equipSelect" id="Equipe" style=" width:178px;height:24px;"/>
+         				<c:forEach items="${modelAllEquipe}" var="p">
          					<option selected disabled hidden style='display: none' value=''></option>
-							<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
-				
+							<option value="<c:out value='${p.nom}'/>" >${p.nom}</option>
 						</c:forEach>  
       				</select>
-   			</p>
-           
+   			 </p>
            
                 <input type="submit" value="Enregistrer" name="action" class="col1_input" >
                 <input type="hidden" value ="${modele.mode }" name="mode"/>
@@ -83,10 +69,26 @@
 				<td>${p.nom}</td>
 				<td>${p.prenom}</td>
 				<td>${p.mail}</td>
-				<td>${p.mail}</td>
+				
+				<c:forEach items="${modelAllEquipe2}" var="p2">
+					<c:if test="${p.nom == p2.key || p.nom == p2.value }">
+                		<c:choose>
+    						<c:when test="${empty p2.value}">
+        						<td>${p2.key}</td>
+    						</c:when>
+    						<c:otherwise>
+        						<td>${p2.value}</td>
+    						</c:otherwise>
+    						
+						</c:choose>
+                	
+        			</c:if>
+			
+				</c:forEach>
+			
+				
 				<td><a href="personne.david?action=modifier&nom=${p.nom}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
 				<td><a href="javascript:confirmer('personne.david?action=delete&nom=${p.nom}')"> <img src="img/supp.jpg" alt="supprimer_Image" /> </a></td>
-				
 				
 			</tr>
 			
@@ -95,3 +97,4 @@
 	</div>
 </body>
 </html>
+

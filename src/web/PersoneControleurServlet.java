@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import metier.Equipe;
 import metier.IMetier;
+import metier.Inscriptions;
 import metier.MetierImpl;
 import metier.Personne;
 
@@ -33,16 +35,19 @@ IMetier metier;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		PersonneModel model = new PersonneModel();
-		EquipeModel modelEquip = new EquipeModel();
 		String action = request.getParameter("action");
-//		modelEquip.setEquipe(metier.GetAllEquipe());
-
+		model.setAllEquip(metier.GetAllEquipe());
+		model.setPersonnes(metier.GetAllPersonne());
+		model.setAllPersInEquipe(metier.GetAlliEquipInPersonne());
+		
 		request.setAttribute("modele", model);
-		request.setAttribute("modelEquip", modelEquip);
+		request.setAttribute("modelAllEquipe", model.getAllEquip());
+		request.setAttribute("modelAllEquipe2", model.getAllPersInEquipe());
 		
 		if (action !=null) 
 		{
-			
+			Inscriptions inscriptions = Inscriptions.getInscriptions();
+			Personne  personne ;
 			if (action.equals("chercher")) 
 			{
 				
@@ -58,23 +63,25 @@ IMetier metier;
 			}
 			else if(action.equals("Enregistrer"))
 			{
-				try 
-				{
-					
-				 model.getPers().setNom(request.getParameter("nom"));
-				 model.getPers().setPrenom(request.getParameter("prenom"));
-				 model.getPers().setMail(request.getParameter("mail"));
+				
+				 personne = inscriptions.createPersonne(request.getParameter("nom"), request.getParameter("prenom"), request.getParameter("mail"));
+				 model.setPers(personne);
+				 String equipe = request.getParameter("equipSelect");
 				 model.setMode(request.getParameter("mode"));
-				 if (model.getMode().equals("ajouter")) 
+				 
+				 if (model.getMode().equals("Enregistrer")) 
 				 {
+					 System.out.println(model.getMode());
+					 if(equipe == null)
 					 metier.addPersonne(model.getPers());
+					 else
+						 metier.addPersonneInEquipe(equipe, model.getPers());
 				 }else if(model.getMode().equals("modifier"))
 					 metier.UpdatePersonne(model.getPers());
 				
 				model.setPersonnes(metier.GetAllPersonne());
-				} catch (Exception e) {
-					model.setMsgError(e.getMessage());
-				}
+				model.setAllPersInEquipe(metier.GetAlliEquipInPersonne());
+				
 			}else if(action.equals("modifier"))
 			{
 				String nom = request.getParameter("nom");

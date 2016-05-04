@@ -11,7 +11,7 @@ public interface IMetier {
 	public void addCompetition(Competition comp);
 	public void addInscrit(String candid ,String comp);
 	public SortedSet<Personne> GetAllPersonne();
-	public void addPersonneInEquipe(String equipe ,String pers);
+	public void addPersonneInEquipe(String equipe ,Personne pers);
 	public SortedSet<Personne> SerchPersonneParMC(String mc);
 	public void UpdatePersonne(Personne pers);
 	public void DeletePersonne(String pers);
@@ -29,7 +29,7 @@ public interface IMetier {
 	public Competition GetOneCompetition(String nom);
 	public void UpdateCompetition(Competition compet,String nomcompet);
 	public void UpdateEquipe(Equipe equip,String beforeName);
-	
+	public Map<String, String> GetAlliEquipInPersonne();
 
 	
 	

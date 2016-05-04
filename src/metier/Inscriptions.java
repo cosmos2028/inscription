@@ -225,8 +225,12 @@ public class Inscriptions
 		Connection con = SingletonConnection.getConnection();
 		MetierImpl metier = new MetierImpl();
 		
+//		for(Candidat equip : metier.GetAllEquipe())
+//		{
+//			System.out.println(equip.getNom());
+//		}
 		Map<String, String> myMap = null;
-		myMap = metier.SerchPersonneInEquipeParMC("c");
+		myMap = metier.GetAllPersonneInEquipe();
 		for (Entry<String, String> currentEntry : myMap.entrySet()) {
 			String id = currentEntry.getKey();
 			String value = currentEntry.getValue();

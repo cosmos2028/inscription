@@ -78,80 +78,8 @@
 				</div>
 			</td>
 		 </tr>
-		 <tr>
-			<td>
-<!-- 				<div id="col2"> -->
-<!-- 					<h3>Ajouter une personne dans une  equipe</h3> -->
-<!-- 						<form action="equipe.david" method="post"> -->
-            
-<!--    							<p> -->
-<!--       						<label for="personne">personne</label> -->
-<!--       						<select name="perselect" id="personne"> -->
-<%--          					<c:forEach items="${modele.personne}" var="p"> --%>
-<%-- 							<option value="<c:out value='${p.nom}'/>">${p.nom}</option> --%>
-				
-<%-- 							</c:forEach>   --%>
-<!--       						</select> -->
-<!--    							</p> -->
-   		
-<!--    							<p> -->
-<!--       						<label for="Equipe">Equipe</label> -->
-<!--       						<select name="equipSelect" id="Equipe"> -->
-<%--          					<c:forEach items="${modele.equipe}" var="p"> --%>
-<%-- 							<option value="<c:out value='${p.nom}'/>">${p.nom}</option> --%>
-				
-<%-- 							</c:forEach>   --%>
-<!--       						</select> -->
-<!--    							</p> -->
-<!--    							<input type="submit" value="ajouter_pers" name="action" class="col1_input" > -->
-   	
-<!-- 						</form> -->
-          
-<%-- 					<div> ${modele.msgError}</div> --%>
-	
-<!-- 				</div> -->
-<!-- 			</td> -->
-			
-<!-- 			<td> -->
-<!-- 				<div> -->
-<!-- 					<h3>Rechercher les personnes d'une équipe</h3> -->
-<!-- 					<form action="equipe.david" method="post"> -->
-<!-- 						<table> -->
-<!-- 							<tr> -->
-<!-- 								<td>Mot clé</td> -->
-<%-- 								<td><input type="text" name="motclePers" value="${modele.motCle }"></td> --%>
-<!-- 								<td><input type="submit" value="chercherPers" name="action" ></td> -->
-<!-- 							</tr> -->
-<!-- 						</table> -->
-<!-- 					</form> -->
-	
-<!-- 					<table class="table1" cellspacing="0" cellpadding="0"> -->
-<!-- 						<tr> -->
-<!-- 							<th>Personne</th> <th>Equipe</th>  -->
-<!-- 						</tr> -->
-<%-- <%-- 						<c:forEach items="${modele.AllPersInEquipe}" var="p"> --%> --%>
-<!-- <!-- 							<tr> --> 
-			
-<%-- <%-- 								<td>${p.key}</td> --%> --%>
-<%-- <%-- 								<td>${p.value}</td> --%> --%>
-<%-- <%-- 								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.key}')">Supprimer</a></td> --%> --%>
-
-<!-- <!-- 							</tr> --> -->
-			
-<%-- <%-- 						</c:forEach> --%> --%>
-<!-- 					</table> -->
-<!-- 				</div> -->
-<!-- 			</td> -->
-		 </tr>
+		
 	</table>
-	
-	
-	
-	
-	
-	
-	
-
 
 </body>
 </html>
