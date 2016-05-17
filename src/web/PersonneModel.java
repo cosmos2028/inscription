@@ -13,9 +13,18 @@ public class PersonneModel
 	private Set<Personne> personnes;
 	private String motCle ;
 	private Personne pers ;
-	private Set<Equipe>  AllEquip;
 	private  Map<String, String> AllPersInEquipe;
+	private static String beforeName;
+	private Set<Equipe>  AllEquip;
 	
+	public static String getBeforeName() {
+		return beforeName;
+	}
+	
+	public static void setBeforeName(String beforeName) {
+		PersonneModel.beforeName = beforeName;
+	}
+
 	
 	public Map<String, String> getAllPersInEquipe() {
 		return AllPersInEquipe;

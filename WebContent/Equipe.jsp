@@ -33,7 +33,7 @@
             
         	<label  class="col1_label"> Nom</label>
                    
-        	<input type="text" name="nom" value="${modele.inputNom}"/> <br/>
+        	<input type="text" name="nom" value="${modele.inputNom}" required/> <br/>
           			
             <input type="submit" value="Enregistrer" name="action" class="col1_input_equip" >
             <input type="hidden" value ="${modele.mode}" name="mode"/>
@@ -66,11 +66,26 @@
 						
 						<c:forEach items="${modelInEquip}" var="p">
 							<tr>
-								<td>${p.key}</td>
-								<td>${p.value}</td>
-								<td><a href="equipe.david?action=modifier&nom=${p.key}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
-								<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.key}')"><img src="img/supp.jpg" alt="supprimer_Image" /></a></td>
+        					 <c:choose>
+  								<c:when test="${p.value == 'Aucun'}">
+  								
+   									<td>${p.key}</td>
+    								<td>${p.value}</td>
+    								<td><a href="equipe.david?action=modifier&nom=${p.key}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
+									<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.key}')"><img src="img/supp.jpg" alt="supprimer_Image" /></a></td>
+									
+  								</c:when>
+  								<c:otherwise>
+  								
+    								<td>${p.value}</td>
+									<td>${p.key}</td>
+									<td><a href="equipe.david?action=modifier&nom=${p.value}"><img src="img/edit.jpg" alt="edit_Image" /></a></td>
+									<td><a href="javascript:confirmer('equipe.david?action=delete&nom=${p.value}')"><img src="img/supp.jpg" alt="supprimer_Image" /></a></td>
+									
+ 									</c:otherwise>
+							</c:choose>
 
+		
 							</tr>
 			
 						</c:forEach>

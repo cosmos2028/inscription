@@ -229,16 +229,16 @@ public class Inscriptions
 //		{
 //			System.out.println(equip.getNom());
 //		}
-		Map<String, String> myMap = null;
-		myMap = metier.GetAllPersonneInEquipe();
-		for (Entry<String, String> currentEntry : myMap.entrySet()) {
-			String id = currentEntry.getKey();
-			String value = currentEntry.getValue();
-			System.out.println( id +"\t"+ value +"\n");
-		   
-		}
-		
-		
+//		Map<String, String> myMap = null;
+//		myMap = metier.SerchPersonneInEquipeParMC("a");
+//		for (Entry<String, String> currentEntry : myMap.entrySet()) {
+//			String id = currentEntry.getKey();
+//			String value = currentEntry.getValue();
+//			System.out.println( id +"\t"+ value +"\n");
+//		   
+//		}
+//		
+//		
 //		for (Map<String, String> e : metier.GetAllPersonneInEquipe())
 //			{
 //				System.out.println(pers.estEnEquipe()+ "\t"+"\n");
@@ -252,11 +252,11 @@ public class Inscriptions
 //		System.out.println(metier.SerchPersonneParMC("l"));
 //		metier.addPersonne(inscriptions.createPersonne("Tony", "Dent de plomb", "azerty"));
 //		metier.addPersonne(inscriptions.createPersonne("jean","emile","leot@gmail.com"));
-//		SortedSet<Personne> AllPers = metier.GetAllPersonne();
-//		for(Personne pers : AllPers)
+//		SortedSet<Competition> AllPers = metier.GetAllCompetInscrit("dol");
+//		for(Competition pers : AllPers)
 //		{
-//			System.out.println(pers.getNom()+ "\t"+ pers.getPrenom() +"\t"+ pers.getMail());
-//			System.out.println(pers.toString());
+//			System.out.println(pers.getNom()+ "\n");
+////			System.out.println(pers.toString());
 //
 //		}
 //		metier.addEquipe(inscriptions.createEquipe("foot"));

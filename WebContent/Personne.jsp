@@ -23,14 +23,14 @@
 	<form action="personne.david" method="post">
         
      
-                <label for="rue" class="col1_label"> Nom</label>
-                    <input type="text" name="nom" value="${modele.pers.nom }"/> <br/>
+                <label for="nom" class="col1_label"> Nom</label>
+                    <input type="text" name="nom" value="${modele.pers.nom }" required/> <br/>
             
-                <label for="rue"> Prenom</label>
-                    <input type="text" name="prenom" value="${modele.pers.prenom }"/> <br/>
+                <label for="prenom"> Prenom</label>
+                    <input type="text" name="prenom" value="${modele.pers.prenom }" required/> <br/>
             
-                <label for="rue" class="col1_label"> Mail</label>
-                    <input type="text" name="mail" value="${modele.pers.mail }"/> <br/>
+                <label for="mail" class="col1_label"> Mail</label>
+                    <input type="text" name="mail" value="${modele.pers.mail }" required/> <br/>
                <p>
       				<label for="Equipe">Equipe</label>
       				<select name="equipSelect" id="Equipe" style=" width:178px;height:24px;"/>
@@ -54,11 +54,11 @@
 		<table>
 			<tr>
 				<td>Mot clé</td>
-				<td><input type="text" name="motcle" value="${modele.motCle }"></td>
+				<td><input type="text" name="motcle" value="${modele.motCle }" placeholder="Nom personne"></td>
 				<td><input type="submit" value="chercher" name="action" ></td>
 			</tr>
 		</table>
-	</form>
+		</form>
 	
 		<table class="table1" cellspacing="0" cellpadding="0">
 			<tr>
@@ -71,17 +71,11 @@
 				<td>${p.mail}</td>
 				
 				<c:forEach items="${modelAllEquipe2}" var="p2">
-					<c:if test="${p.nom == p2.key || p.nom == p2.value }">
-                		<c:choose>
-    						<c:when test="${empty p2.value}">
-        						<td>${p2.key}</td>
-    						</c:when>
-    						<c:otherwise>
-        						<td>${p2.value}</td>
-    						</c:otherwise>
-    						
-						</c:choose>
-                	
+				
+					<c:if test="${p.nom == p2.key}">
+					
+        				<td>${p2.value}</td>
+    					
         			</c:if>
 			
 				</c:forEach>

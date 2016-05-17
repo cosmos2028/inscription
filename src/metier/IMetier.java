@@ -13,7 +13,7 @@ public interface IMetier {
 	public SortedSet<Personne> GetAllPersonne();
 	public void addPersonneInEquipe(String equipe ,Personne pers);
 	public SortedSet<Personne> SerchPersonneParMC(String mc);
-	public void UpdatePersonne(Personne pers);
+	public void UpdatePersonne(Personne pers,String nom);
 	public void DeletePersonne(String pers);
 	public Personne GetPersonne(String pers);
 	
@@ -30,6 +30,9 @@ public interface IMetier {
 	public void UpdateCompetition(Competition compet,String nomcompet);
 	public void UpdateEquipe(Equipe equip,String beforeName);
 	public Map<String, String> GetAlliEquipInPersonne();
+	public void updadePersonneInEquipe(Personne pers,String beforeName,String equip);
+	public SortedSet<Candidat> GetAllCandidat();
+	public SortedSet<Competition> GetAllCompetInscrit(String candid);
 
 	
 	

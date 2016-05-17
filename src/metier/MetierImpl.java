@@ -1,6 +1,5 @@
 package metier;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+
 
 
 public class MetierImpl implements IMetier {
@@ -230,21 +231,39 @@ public class MetierImpl implements IMetier {
 	}
 
 	@Override
-	public void UpdatePersonne(Personne pers) {
+	public void UpdatePersonne(Personne pers, String nom) {
 		
 		Connection conn = SingletonConnection.getConnection();
 		
 		try {
+			PreparedStatement ps2 = conn.prepareStatement
+					("update candidat set nomCandidat = ? where nomCandidat = ? ");
+			
+			ps2.setString(1,pers.getNom());
+			ps2.setString(2,nom);
+			
+			 ps2.executeUpdate();
+			
 			PreparedStatement ps = conn.prepareStatement
 					("update personne set prenom = ?,mail=? where personne.id_candid in(select id_candid from candidat where nomCandidat = ? )");
+			
 			ps.setString(1,pers.getPrenom());
 			ps.setString(2,pers.getMail());
 			ps.setString(3,pers.getNom());
 		    ps.executeUpdate();
+		    
+		    PreparedStatement ps3 = conn.prepareStatement
+					("delete from composer where id_candid in(select id_candid FROM candidat where nomCandidat =  ? )");
+			
+			ps3.setString(1,pers.getNom());
+			ps3.executeUpdate();
+			 
+			ps3.close();
+		    ps2.close();
 			ps.close();
+			
 			System.out.println("personne modifiée !!");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -406,81 +425,117 @@ public class MetierImpl implements IMetier {
 	@Override
 	public Map<String, String> SerchPersonneInEquipeParMC(String mc)
 	{
-		Map<String, String> persinequip = new HashMap<String, String>();
-		ArrayList<String> alCandidat = new ArrayList<String>();
 		
+		Map<String, String> persinequip = new HashMap<String, String>();
 		Connection conn = SingletonConnection.getConnection();
+		String pers = "";
+		String equip = "" ;
+		
 		
 		try {
-			
-			PreparedStatement ps = conn.prepareStatement("call SerchAllPersonneInEquipe2(?)");
-			PreparedStatement ps2 = conn.prepareStatement("call SerchAllPersonneInEquipe(?)");
-			ps.setString(1,"%"+mc+"%");
-			ps2.setString(1,mc);
+			PreparedStatement ps = conn.prepareStatement("call GetAllPersonneInEquipe()");
+			PreparedStatement ps2 = conn.prepareStatement("select nomCandidat from CANDIDAT c,equipe p where nomCandidat like ? and c.id_candid = p.id_candid and c.id_candid NOT IN (select id_candid from composer)and p.id_candid NOT IN (select id_candid_CANDIDAT from composer)");
+			PreparedStatement ps3 = conn.prepareStatement("select nomCandidat from CANDIDAT where nomCandidat like ? and id_candid = ?");
+			PreparedStatement ps4 = conn.prepareStatement("select nomCandidat from CANDIDAT where  id_candid = ?");
 			
 			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next())
 			{
-				alCandidat.add(rs.getString("nomCandidat"));
+				ps3.setString(1,"%"+mc+"%");
+				ps3.setInt(2,rs.getInt("id_candid_CANDIDAT"));
+				ResultSet rs3_ = ps3.executeQuery();
+			
+				if(rs3_.next()) 
+				{
+					ps4.setInt(1,rs.getInt("id_candid"));
+					
+					ResultSet rs4 = ps4.executeQuery();
+					
+					
+					if(rs4.next())
+						 pers = rs4.getString("nomCandidat");
+					
+					equip = rs3_.getString("nomCandidat");
+					
+					persinequip.put(pers,equip);
+				}
+					 
+					
+				
+				
 			}
-			
-			for(int i = 0; i < alCandidat.size()-1; i++)
-		    {
-				persinequip.put(alCandidat.get(i),alCandidat.get(i+1));
-		      
-		    } 
-			
+			ps2.setString(1,"%"+mc+"%");
 			ResultSet rs2 = ps2.executeQuery();
 			while(rs2.next())
 			{
+				
 				persinequip.put(rs2.getString("nomCandidat"),"Aucun");
 				
 			}
 			
 			ps.close();
 			ps2.close();
-			System.out.println("persInEquipe trouvée !!");
+			ps3.close();
+			System.out.println("recherche effectuée !!");
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
 		
 		return persinequip;
-		
+			
 	}
 
 	@Override
 	public Map<String, String> GetAllPersonneInEquipe() {
 		
-		Map<String, String> persinequip = new HashMap<String, String>();
-		ArrayList<String> alCandidat = new ArrayList<String>();
 
+		Map<String, String> persinequip = new HashMap<String, String>();
 		Connection conn = SingletonConnection.getConnection();
+		String pers = "";
+		String equip = "" ;
+		
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement("call GetAllPersonneInEquipe()");
-			PreparedStatement ps2 = conn.prepareStatement("select nomCandidat from CANDIDAT c,equipe e where c.id_candid = e.id_candid and c.id_candid NOT IN (select id_candid from composer)and c.id_candid NOT IN (select id_candid_CANDIDAT from composer)");
-			
+			PreparedStatement ps2 = conn.prepareStatement("select nomCandidat from CANDIDAT c,equipe p where c.id_candid = p.id_candid and c.id_candid NOT IN (select id_candid from composer)and c.id_candid NOT IN (select id_candid_CANDIDAT from composer)");
+			PreparedStatement ps3 = conn.prepareStatement("select nomCandidat from CANDIDAT where id_candid = ?");
+
 			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next())
 			{
-				alCandidat.add(rs.getString("nomCandidat"));
+
+				ps3.setInt(1,rs.getInt("id_candid"));
+				ResultSet rs3 = ps3.executeQuery();
+				
+				
+				if(rs3.next())
+					 pers = rs3.getString("nomCandidat");
+			
+				
+				ps3.setInt(1,rs.getInt("id_candid_CANDIDAT"));
+				ResultSet rs3_ = ps3.executeQuery();
+			
+				if(rs3_.next()) 
+					 equip = rs3_.getString("nomCandidat");
+					
+				persinequip.put(pers,equip);
+				
 			}
-			int tmp = alCandidat.size()-1;
-			for(int i = 0; i < alCandidat.size()-1 && i< tmp; i++)
-		    {
-				persinequip.put(alCandidat.get(i),alCandidat.get(tmp));
-				tmp--;
-		    } 
 			
 			ResultSet rs2 = ps2.executeQuery();
 			while(rs2.next())
 			{
+				
 				persinequip.put(rs2.getString("nomCandidat"),"Aucun");
 				
 			}
 			
 			ps.close();
+			ps2.close();
+			ps3.close();
 			System.out.println("persInEquipe récupérée !!");
 		} catch (SQLException e) {
 			
@@ -628,36 +683,50 @@ public class MetierImpl implements IMetier {
 	public Map<String, String> GetAlliEquipInPersonne() {
 		
 		Map<String, String> persinequip = new HashMap<String, String>();
-		ArrayList<String> alCandidat = new ArrayList<String>();
-
 		Connection conn = SingletonConnection.getConnection();
+		String pers = "";
+		String equip = "" ;
+		
 		
 		try {
-			
 			PreparedStatement ps = conn.prepareStatement("call GetAllPersonneInEquipe()");
 			PreparedStatement ps2 = conn.prepareStatement("select nomCandidat from CANDIDAT c,personne p where c.id_candid = p.id_candid and c.id_candid NOT IN (select id_candid from composer)and c.id_candid NOT IN (select id_candid_CANDIDAT from composer)");
-			
+			PreparedStatement ps3 = conn.prepareStatement("select nomCandidat from CANDIDAT where id_candid = ?");
+
 			ResultSet rs = ps.executeQuery();
+			
 			while(rs.next())
 			{
-				alCandidat.add(rs.getString("nomCandidat"));
-			}
-			
-			for(int i = 0; i < alCandidat.size()-1 ; i++)
-		    {
-				persinequip.put(alCandidat.get(i),alCandidat.get(i+1));
-				System.out.println(alCandidat.get(i) + "salut");
+
+				ps3.setInt(1,rs.getInt("id_candid"));
+				ResultSet rs3 = ps3.executeQuery();
 				
-		    } 
+				
+				if(rs3.next())
+					 pers = rs3.getString("nomCandidat");
+			
+				
+				ps3.setInt(1,rs.getInt("id_candid_CANDIDAT"));
+				ResultSet rs3_ = ps3.executeQuery();
+			
+				if(rs3_.next()) 
+					 equip = rs3_.getString("nomCandidat");
+					
+				persinequip.put(pers,equip);
+				
+			}
 			
 			ResultSet rs2 = ps2.executeQuery();
 			while(rs2.next())
 			{
-				persinequip.put(rs2.getString("nomCandidat"),"Aucun");
+				
+				persinequip.put(rs2.getString("nomCandidat"),"Aucune");
 				
 			}
 			
 			ps.close();
+			ps2.close();
+			ps3.close();
 			System.out.println("persInEquipe récupérée !!");
 		} catch (SQLException e) {
 			
@@ -665,6 +734,122 @@ public class MetierImpl implements IMetier {
 		}
 		
 		return persinequip;
+	}
+
+	@Override
+	public void updadePersonneInEquipe(Personne pers, String beforeName, String equip) {
+		
+		Connection conn = SingletonConnection.getConnection();
+		
+		try {
+			PreparedStatement ps2 = conn.prepareStatement
+					("update candidat set nomCandidat = ? where nomCandidat = ? ");
+			
+			ps2.setString(1,pers.getNom());
+			ps2.setString(2,beforeName);
+			
+			 ps2.executeUpdate();
+			
+			PreparedStatement ps = conn.prepareStatement
+					("update personne set prenom = ?,mail=? where personne.id_candid in(select id_candid from candidat where nomCandidat = ? )");
+			
+			ps.setString(1,pers.getPrenom());
+			ps.setString(2,pers.getMail());
+			ps.setString(3,pers.getNom());
+		    ps.executeUpdate();
+		    
+		    PreparedStatement ps3 = conn.prepareStatement("call updatePersonneInEquipe(?,?)");
+			
+			ps3.setString(1,equip);
+			ps3.setString(2,pers.getNom());
+			ps3.executeQuery();
+			
+		    
+		    ps2.close();
+			ps.close();
+			ps3.close();
+			
+			System.out.println("personne modifiée !!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public SortedSet<Candidat> GetAllCandidat() {
+		
+		
+		SortedSet<Candidat> CandidpAll = new TreeSet<>();
+		Connection conn = SingletonConnection.getConnection();
+		Candidat equipe;
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement
+					("select nomCandidat from CANDIDAT");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				equipe = new Equipe(null, rs.getString("nomCandidat"));
+				
+				CandidpAll.add(equipe);
+				
+			}
+			
+			ps.close();
+			
+			System.out.println("candidat recupéré !!");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return CandidpAll;
+	}
+
+	@Override
+	public SortedSet<Competition> GetAllCompetInscrit(String candid) {
+		
+		SortedSet<Competition> CompetpAll = new TreeSet<>();
+		Connection conn = SingletonConnection.getConnection();
+		Competition compet;
+		boolean enEquip = true;
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement
+					("select id_candid from CANDIDAT where nomCandidat = ? and id_candid in(SELECT id_candid from personne)");
+			ps.setString(1,candid ); 
+			ResultSet rs = ps.executeQuery();
+			if(rs.next())
+			{
+				 enEquip = false;				
+			}
+			
+			PreparedStatement ps2 = conn.prepareStatement
+					(" select nom_compet from COMPETITION where enEquipe = ?");
+			ps2.setBoolean(1,enEquip ); 
+			ResultSet rs2 = ps2.executeQuery();
+			
+			while(rs2.next())
+			{
+				String gg = rs2.getString("nom_compet");
+				
+				compet = new Competition(null,gg , null, false);
+				
+				CompetpAll.add(compet);
+				
+			}
+			
+			ps2.close();
+			ps.close();
+			
+			System.out.println("compétition recupérée !!");
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return CompetpAll;
 	}
 
 

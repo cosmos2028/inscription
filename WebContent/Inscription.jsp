@@ -5,7 +5,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inscription</title>
 <link rel="stylesheet" type="text/css" href="css/style.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <script type="text/javascript">
+
 	function confirmer(url)
 	{
 		var rep=confirm("Etes vous sûr  de vouloir désinscrire ?");
@@ -15,36 +17,69 @@
 				document.location=url;
 			}
 	}
+	
+	$(function () {
+	     
+	      $('#candidat').bind('change keyup',function () {
+	   
+	        //get value of selected option
+	        var value = $(this).children("option:selected").attr('value');
+	        
+	        var nameImput = $( '#nameImput' ).val();
+	        var nameImput2 = 'Envoyer';
+	        var nameImput3 = 'Inscrire';
+	        var nameImput4 = 'selected';
+	        
+	        if(nameImput == nameImput2 )
+	        	{
+	        	 $("#selectcompet").hide();
+	        	
+	        	}
+	        else if(nameImput == nameImput3 &&  value!= nameImput4)
+	        	{
+	        	$("#selectcompet").hide();
+	        	}
+
+	      }).change();
+	   
+	    });
+	
+	
+	
 </script>
 </head>
 <body>
 	<%@ include file="menu.jsp" %>
 	<div id="col1">
-		<form action="equipe.david" method="post"> 
+		<form action="inscription.david" method="post"> 
             
-   			<p>
+            <p>
+      			<label for="candidat">Candidat</label>
+      			<select name="candidSelect" id="candidat" style="width: 126px;height: 24px;margin-left: 25px;" required>
+         			<c:forEach items="${modelCandid}" var="p">
+         			<option selected disabled hidden style='display: none' value='selected'>${model.valSelect}</option>
+					<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
+				
+					</c:forEach>
+					  
+      			</select>
+      			
+   			</p>
+   			
+   			<p id="selectcompet">
+   			
       			<label for="competition">Compétition</label>
       			<select name="compselect" id="competition" style="width: 126px;height: 24px;">
-         			<c:forEach items="${modele.personne}" var="p">
+         			<c:forEach items="${modelCompet}" var="p">
 						<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
 				
 					</c:forEach>  
       			</select>
    			</p>
-   		
-   			<p>
-      			<label for="candidat">Candidat</label>
-      			<select name="candidSelect" id="candidat" style="width: 126px;height: 24px;margin-left: 25px;">
-         			<c:forEach items="${modele.equipe}" var="p">
-					<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
-				
-					</c:forEach>  
-      			</select>
-   			</p>
-   		<input type="submit" value="Inscrire" name="action" class="col1_input" style="margin-left: 115px;" >
+   		<input type="submit" value="Enregistrer" name="action"  class="col1_input" style="margin-left: 115px;" >
+   		<input type="hidden" value ="${model.nameImput}" name="mode" id="nameImput"/>
    	
 		</form>
-	<div> ${modele.msgError}</div>
 	
 	</div>
 	
@@ -76,5 +111,6 @@
 			</c:forEach>
 		</table>
 	</div>
+	<span id="error" > ${modele.msgError}</span>
 </body>
 </html>

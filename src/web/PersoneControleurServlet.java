@@ -36,6 +36,7 @@ IMetier metier;
 	{
 		PersonneModel model = new PersonneModel();
 		String action = request.getParameter("action");
+		
 		model.setAllEquip(metier.GetAllEquipe());
 		model.setPersonnes(metier.GetAllPersonne());
 		model.setAllPersInEquipe(metier.GetAlliEquipInPersonne());
@@ -43,7 +44,8 @@ IMetier metier;
 		request.setAttribute("modele", model);
 		request.setAttribute("modelAllEquipe", model.getAllEquip());
 		request.setAttribute("modelAllEquipe2", model.getAllPersInEquipe());
-		
+	
+		model.setMsgError("erreur à afficher");
 		if (action !=null) 
 		{
 			Inscriptions inscriptions = Inscriptions.getInscriptions();
@@ -71,28 +73,49 @@ IMetier metier;
 				 
 				 if (model.getMode().equals("Enregistrer")) 
 				 {
-					 System.out.println(model.getMode());
 					 if(equipe == null)
 					 metier.addPersonne(model.getPers());
 					 else
 						 metier.addPersonneInEquipe(equipe, model.getPers());
 				 }else if(model.getMode().equals("modifier"))
-					 metier.UpdatePersonne(model.getPers());
-				
-				model.setPersonnes(metier.GetAllPersonne());
-				model.setAllPersInEquipe(metier.GetAlliEquipInPersonne());
+				 {
+					 if(equipe == null)
+						 metier.UpdatePersonne(model.getPers(),PersonneModel.getBeforeName());
+					else
+						 metier.updadePersonneInEquipe( model.getPers(),PersonneModel.getBeforeName(),equipe);
+				 }
+				 
 				
 			}else if(action.equals("modifier"))
 			{
 				String nom = request.getParameter("nom");
 				Personne pers = metier.GetPersonne(nom);
+				PersonneModel.setBeforeName(nom); 
 				model.setPers(pers);
 				model.setMode("modifier");
 				model.setPersonnes(metier.GetAllPersonne());
 			}
+			
+		}
+		
+		if(action != null) //pour favoriser l'affichage de la recherche
+		{
+			if(!(action.equals("chercher")))
+			{
+				model.setAllEquip(metier.GetAllEquipe());
+				model.setPersonnes(metier.GetAllPersonne());
+				model.setAllPersInEquipe(metier.GetAlliEquipInPersonne());
+				
+				request.setAttribute("modele", model);
+				request.setAttribute("modelAllEquipe", model.getAllEquip());
+				request.setAttribute("modelAllEquipe2", model.getAllPersInEquipe());
+			}
+		
 		}
 		
 		request.getRequestDispatcher("Personne.jsp").forward(request, response);
+		
+		
 		
 	}
 	

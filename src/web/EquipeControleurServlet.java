@@ -50,7 +50,7 @@ IMetier metier;
 				 equip = inscriptions.createEquipe(request.getParameter("nom"));
 				 modelEquipe.setEquip(equip);
 				 modelEquipe.setMode(request.getParameter("mode"));
-				 System.out.println(modelEquipe.getMode());
+				 
 					
 				if (modelEquipe.getMode().equals("Enregistrer")) 
 				 {
