@@ -2,6 +2,7 @@ package web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -44,21 +45,24 @@ IMetier metier;
 	        
 	        if (action !=null) 
 			{
-				Inscriptions inscriptions = Inscriptions.getInscriptions();
 				
-				if (action.equals("Enregistrer")) 
+				if (action.equals("Envoyer")) 
 				{
 					  candSelect = request.getParameter("candidSelect");
 					  request.setAttribute("modelCompet",  metier.GetAllCompetInscrit(candSelect));
-					  model.setNameImput("Inscrire");
+					  model.setMode("Inscrire");
 					  model.setValSelect(candSelect);
-					  
-					  System.out.println(model.getNameImput());
-					
+				}
+				else if(action.equals("Inscrire")) 
+				{
+					String cand = request.getParameter("candidSelect");
+					String compet = request.getParameter("compselect");
+					metier.addInscrit(cand, compet);
+//					request.setAttribute("modelAllInscrit", );
 				}
 			}
 	     
-	      request.setAttribute("model", model);
+	    request.setAttribute("model", model);
 		request.setAttribute("modelCandid", metier.GetAllCandidat());
 		
 		request.getRequestDispatcher("Inscription.jsp").forward(request, response);

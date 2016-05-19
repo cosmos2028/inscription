@@ -9,24 +9,24 @@ import metier.Equipe;
 public class InscriptionModel {
 
 	private Set<Candidat>  AllEquip;
-	private String nameImput = "Envoyer";
-	private String valSelect;
+	private String mode = "Envoyer";
+	private  String valSelect ;
 	
 
-	public String getValSelect() {
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
+	public  String getValSelect() {
 		return valSelect;
 	}
 
-	public void setValSelect(String valSelect) {
+	public  void setValSelect(String valSelect) {
 		this.valSelect = valSelect;
-	}
-
-	public String getNameImput() {
-		return nameImput;
-	}
-
-	public void setNameImput(String nameImput) {
-		this.nameImput = nameImput;
 	}
 
 	public Set<Candidat> getAllEquip() {

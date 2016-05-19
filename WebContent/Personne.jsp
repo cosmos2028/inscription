@@ -33,7 +33,7 @@
                     <input type="text" name="mail" value="${modele.pers.mail }" required/> <br/>
                <p>
       				<label for="Equipe">Equipe</label>
-      				<select name="equipSelect" id="Equipe" style=" width:178px;height:24px;"/>
+      				<select name="equipSelect" id="Equipe" style=" width:178px;height:24px;">
          				<c:forEach items="${modelAllEquipe}" var="p">
          					<option selected disabled hidden style='display: none' value=''></option>
 							<option value="<c:out value='${p.nom}'/>" >${p.nom}</option>

@@ -157,7 +157,7 @@ public class MetierImpl implements IMetier {
 			ps.setString(2,comp ); 
 			ps.executeUpdate();
 			ps.close();
-			System.out.println("l'inscription  ajoutÃ© avec succÃ¨s!!");
+			System.out.println("l'inscription  ajoutée avec succés!!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -814,6 +814,7 @@ public class MetierImpl implements IMetier {
 		Connection conn = SingletonConnection.getConnection();
 		Competition compet;
 		boolean enEquip = true;
+		LocalDate today = LocalDate.now();
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement
@@ -826,8 +827,9 @@ public class MetierImpl implements IMetier {
 			}
 			
 			PreparedStatement ps2 = conn.prepareStatement
-					(" select nom_compet from COMPETITION where enEquipe = ?");
+					(" select nom_compet from COMPETITION where enEquipe = ? and dateclose >= ?");
 			ps2.setBoolean(1,enEquip ); 
+			ps2.setDate(2,java.sql.Date.valueOf(today)); 
 			ResultSet rs2 = ps2.executeQuery();
 			
 			while(rs2.next())

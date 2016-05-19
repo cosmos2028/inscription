@@ -24,27 +24,32 @@
 	   
 	        //get value of selected option
 	        var value = $(this).children("option:selected").attr('value');
+	        var compselect = $( "#competition" ).val();
 	        
 	        var nameImput = $( '#nameImput' ).val();
 	        var nameImput2 = 'Envoyer';
 	        var nameImput3 = 'Inscrire';
 	        var nameImput4 = 'selected';
-	        
+			
 	        if(nameImput == nameImput2 )
 	        	{
 	        	 $("#selectcompet").hide();
 	        	
 	        	}
-	        else if(nameImput == nameImput3 &&  value!= nameImput4)
+	        else if(nameImput == nameImput3 &&  value!= nameImput4 || compselect == null)
 	        	{
 	        	$("#selectcompet").hide();
+	        	$("#nameImput").val("Envoyer");
 	        	}
-
+	        if(compselect == null && nameImput == nameImput3 )
+	        	{
+	        		
+	        		alert("pas de compétition en cours");
+	        	}
+	      
 	      }).change();
 	   
 	    });
-	
-	
 	
 </script>
 </head>
@@ -55,7 +60,7 @@
             
             <p>
       			<label for="candidat">Candidat</label>
-      			<select name="candidSelect" id="candidat" style="width: 126px;height: 24px;margin-left: 25px;" required>
+      			<select name="candidSelect" id="candidat" style="width: 126px;height: 24px;margin-left: 25px;">
          			<c:forEach items="${modelCandid}" var="p">
          			<option selected disabled hidden style='display: none' value='selected'>${model.valSelect}</option>
 					<option value="<c:out value='${p.nom}'/>">${p.nom}</option>
@@ -76,9 +81,8 @@
 					</c:forEach>  
       			</select>
    			</p>
-   		<input type="submit" value="Enregistrer" name="action"  class="col1_input" style="margin-left: 115px;" >
-   		<input type="hidden" value ="${model.nameImput}" name="mode" id="nameImput"/>
-   	
+   		<input type="submit" value="${model.mode}" name="action" id="nameImput" class="col1_input" style="margin-left: 115px;" >
+   		<input type="hidden" value ="${model.valSelect}" name="candidSelect" id="candidSel"/>
 		</form>
 	
 	</div>
